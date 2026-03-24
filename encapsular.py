@@ -27,3 +27,10 @@ cuenta.retirar(200);
 
 cuenta.mostrar_saldo();
 # print(cuenta.__saldo)
+
+
+"""
+    EJERCICIO EN CLASE:
+
+    
+"""
