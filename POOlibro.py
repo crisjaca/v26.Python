@@ -3,19 +3,34 @@
 class Libro:
 
     def __init__(self, titulo,autor, año, disponibilidad):
-        libros = {}
+        self.titulo = titulo
+        self.autor = autor
+        self.año = año
+        self.disponibilidad = disponibilidad;
 
     def mostrar(self):
         print("Libro: ",self.titulo,"\nAutor: ",self.autor,"\naño: ",self.año,"\nDisponible? ",self.disponibilidad)
 
-    def crear(self, titulo,autor, año, disponibilidad ):
-        self.libros.append({titulo,autor,año,disponibilidad})
-        print(f"El libro { titulo } se agrego..")
+    # Método para prestar libro
+    def prestar(self):
+        if self.disponibilidad:
+            self.disponibilidad = False
+            print(f"El libro '{self.titulo}' ha sido prestado.")
+        else:
+            print(f"El libro '{self.titulo}' no está disponible.")
+
+    # Método para devolver libro
+    def devolver(self):
+        if not self.disponibilidad:
+            self.disponibilidad = True
+            print(f"El libro '{self.titulo}' ha sido devuelto.")
+        else:
+            print(f"El libro '{self.titulo}' ya estaba disponible.")
+
     
-    def prestar(self)
 valor = True;
 
-
+biblioteca = {}
 try:
     while valor:
         print("Biblioteca..\n1) Agregar libro.\n2) Mostrar libro.\n3) Prestrar libro.\n4) Devolver libro\n5) Salir");
@@ -27,11 +42,23 @@ try:
             autor1 = input("Ingresa el autor: ")
             año1 = int(input("Ingresa el año: "));
             disp1 = True;
-            obj1 = Libro(libro1,autor1,año1,disp1)
-            #libros.append(libro1,autor1,año1,disp1)
+            libro = Libro(libro1,autor1,año1,disp1)
+            biblioteca.append(libro)
             print("Libro agregado!!");
         elif opc == 2:
-            Libro.mostrar();
+            for libro in biblioteca:
+                libro.mostrar()
+        elif opc == 3:
+            titulo = input("Título del libro a prestar: ")
+            for libro in biblioteca:
+                if libro.titulo == titulo:
+                    libro.prestar()
+
+        elif opc == 4:
+            titulo = input("Título del libro a devolver: ")
+            for libro in biblioteca:
+                if libro.titulo == titulo:
+                    libro.devolver()
         elif opc == 5: 
             break;
 except ValueError:
