@@ -46,6 +46,20 @@ class Sistema:
         
         return mensaje_lista;
 
+    def bucarEstudiante(self, nombreE):
+        for i in range(len(self.listaEstudiantes)):
+            if self.listaEstudiantes[i].nombre == nombreE:
+                return self.listaEstudiantes[i].mostrarInfo()
+
+    def eliminar(self, nombreE):
+        for i in range(len(self.listaEstudiantes)):
+            if self.listaEstudiantes[i].nombre == nombreE:
+                self.listaEstudiantes.pop(i)
+                return True
+
+    def conteo(self):
+        return len(self.listaEstudiantes)
+
 
 lista = Sistema()
 
@@ -85,6 +99,30 @@ def registro():
 def listaEstudiante():
     resultado2.config(text=f"Lista Estudiantes: \n{lista.mostrarEstudiantes()}")
 #ventana principal
+def buscar_estudiante():
+    nombre_buscar = txt_buscar.get()
+    txt = lista.bucarEstudiante(nombre_buscar)
+    if txt:
+        resultado.config(text="Se encontro el registro.")
+        resultado2.config(text=txt)
+    else:
+        resultado2.config(text="El estudiante no existe.")
+    txt_buscar.delete(0,tk.END)
+
+def eliminar_estudiante():
+    eliminar = txt_buscar.get()
+
+    if lista.eliminar(eliminar):
+        resultado2.config(text="Se borro el registro.")
+    else:
+        resultado2.config(text="no se encontro el registro")
+    txt_buscar.delete(0,tk.END)
+def conteo_estudiantes():
+    ct = lista.conteo()
+    if ct:
+        resultado2.config(text=f"la candidad de estudiantes es:{ct}")
+    else:
+        resultado2.config(text=f"no hay registros")
 
 try:
     ventana = tk.Tk()
@@ -110,11 +148,18 @@ try:
     resultado.pack()
 
     boton_lista = tk.Button(ventana, text="Lista Estudiantes", command=listaEstudiante)
-    boton_lista.pack(pady=20)
+    boton_lista.pack(pady=10)
 
     resultado2 = tk.Label(ventana, text="")
     resultado2.pack()
 
+
+    buscar = tk.Label(ventana, text="Buscar Estudiante por nombre.").pack()
+    txt_buscar = tk.Entry(ventana)
+    txt_buscar.pack()
+    bnt_buscar = tk.Button(ventana,text="Buscar",command=buscar_estudiante).pack()
+    btn_eliminar = tk.Button(ventana,text="Eliminar",command=eliminar_estudiante).pack()
+    btn_cantidad =  tk.Button(ventana,text="cantidad estudiantes",command=conteo_estudiantes).pack()
     ventana.mainloop()
 except ValueError:
     resultado.config(text="Error: Entrada Invalida")
