@@ -60,7 +60,6 @@ class Sistema:
     def conteo(self):
         return len(self.listaEstudiantes)
 
-
 lista = Sistema()
 
 def registro():
