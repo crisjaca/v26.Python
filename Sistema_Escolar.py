@@ -23,9 +23,9 @@ class Estudiante():
             menssage = "No hay notas registradas!!"
             return menssage;
         elif self.calcular_Promedio()>=60:
-            return True;
+            return "Aprobado"
         else:
-            return False;
+            return "Reprobado"
         
     def mostrarInfo(self):
         lista = ""
@@ -69,29 +69,31 @@ def registro():
     if edad_E == "":
         resultado.config(text="Error: La edad no puede estar vacía")
         return
+    if nota_E == "": 
+        resultado.config(text="Error: La nota no puede estar vacía")
     # valida que edad sea numérica
     try:
         edad_E = int(edad_E)  # la convierto a entero en caso de error es pq no es un numero
         if edad_E < 0:
             resultado.config(text="Error: La edad no puede ser negativa")
             return
-        nota_E = int(nota_E)
-
-    except ValueError:
-        resultado.config(text="Error: Entrada inválida")
-        return
-    if nombre_E and edad_E and nota_E >0 and nota_E < 100:
-        nuevo_estudiante = Estudiante(nombre_E, edad_E, nota_E)
-        if lista.agregar_Estudiantes(nuevo_estudiante):
-            resultado.config(text=f"¡Se ha registrado un nuevo estudiante {nombre_E}!")
+        nota_E = int(nota_E) 
+        if nombre_E and edad_E and nota_E >0 and nota_E < 100:
+            nuevo_estudiante = Estudiante(nombre_E, edad_E, nota_E)
+            if lista.agregar_Estudiantes(nuevo_estudiante):
+                resultado.config(text=f"¡Se ha registrado un nuevo estudiante {nombre_E}!")
+            else:
+                resultado.config(text=f"Error: estudiante {nombre_E} ya existe.")
         else:
-            resultado.config(text=f"Error: estudiante {nombre_E} ya existe.")
-    else:
-        resultado.config(text="Por favor ingrese nombre y edad.")
-
+            resultado.config(text="Por favor ingrese nombre y edad.")
+    except ValueError:
+        resultado.config(text="")
+        resultado2.config(text="Error: Entrada inválida")
+        
     nombre.delete(0,tk.END)
     edad.delete(0,tk.END)
     nota.delete(0,tk.END)
+    return
 
 def lst_estudiantes():
     resultado2.config(text=f"Lista Estudiantes: \n{lista.mostrar_Lista_Estudiante()}")
@@ -106,6 +108,7 @@ def agregar_Nota():
             nota.delete(0,tk.END)
             return
     else:
+        resultado.config(text="")
         resultado2.config(text="Error: Entrada Invalida")
         return
     if nota2 == "":
@@ -122,11 +125,22 @@ def buscar_E():
         nombre.delete(0,tk.END)
         return
     else:
+        resultado.config(text="")
         resultado2.config(text="Error: Usuario no encontrado")
         return
 
-# def promedio():
-#     nombre2 =n
+def promedio():
+    nombre2 = nombre.get()
+    
+    if lista.buscar_Estudiantes(nombre2):
+        resultado2.config(text=f"El promedio del estudiante es:\n{lista.buscar_Estudiantes(nombre2).calcular_Promedio()}\nSu estado: {
+            lista.buscar_Estudiantes(nombre2).estado()}")
+        nombre.delete(0,tk.END)
+        return
+    else:
+        resultado.config(text="")
+        resultado2.config(text="Error: Usuario no encontrado")
+        return
 
 try:
     ventana = tk.Tk()
@@ -159,9 +173,10 @@ try:
     btn_buscar_estudiante = tk.Button(ventana,text="Buscar Estudiante", command=buscar_E)
     btn_buscar_estudiante.pack()
     # ========================================================
-    # btn_promedio = tk.Button(ventana, text="Mostrar promedio", command=promedio)
-    # btn_promedio.pack(pady=20)
+    btn_promedio = tk.Button(ventana, text="Mostrar promedio y Estado", command=promedio)
+    btn_promedio.pack()
     # ========================================================
+    
 
     resultado = tk.Label(ventana, text="")
     resultado.pack()

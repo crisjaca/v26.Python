@@ -2,6 +2,7 @@
     Ingieneria de Sistemas | 3 Semestre | 2 Corte
     Cristian David Jacanamijoy Narvaez
     
+    ¡5.0!!✅👽
 """
 import tkinter as tk
 
@@ -52,32 +53,30 @@ lista = Sistema()
 def registro():
     nombre_E = nombre.get()
     edad_E = edad.get()
-    if nombre_E == "":
-        resultado.config(text="Error: El nombre no puede estar vacío")
+    # strip() elimina espacios al inicio y final
+    if nombre_E.strip() == "" or edad_E.strip() == "":
+        resultado.config(text="Error: No se permiten campos vacíos")
+        nombre.delete(0, tk.END)
+        edad.delete(0, tk.END)
         return
-    
-    if edad_E == "":
-        resultado.config(text="Error: La edad no puede estar vacía")
-        return
-    
-    # valida que edad sea numérica
+    # Valido que edad sea un numero.
+    # atrapo el error
     try:
-        edad_E = int(edad_E)  # la convierto a entero en caso de error es pq no es un numero
+        edad_E = int(edad_E)  # Aqui convierto el dato a entero, en caso de error es pq no es un numero y sale
+        #verifico que no sea negativa la edad
         if edad_E < 0:
             resultado.config(text="Error: La edad no puede ser negativa")
             return
     except ValueError:
         resultado.config(text="Error: La edad debe ser un numero válido")
         return
-    
-    if nombre_E and edad_E:
-        nuevo_estudiante = Estudiante(nombre_E, edad_E)
-        if lista.agregarEstudiante(nuevo_estudiante):
-            resultado.config(text=f"¡Se ha registrado un nuevo estudiante {nombre_E}!")
-        else:
-            resultado.config(text=f"Error: estudiante {nombre_E} ya existe.")
+    # verifico que los valores no esten vacios, en caso de estar vacios muestra el mensaje
+    nuevo_estudiante = Estudiante(nombre_E, edad_E)
+
+    if lista.agregarEstudiante(nuevo_estudiante):
+        resultado.config(text=f"¡Se ha registrado un nuevo estudiante {nombre_E}!")
     else:
-        resultado.config(text="Por favor ingrese nombre y edad.")
+        resultado.config(text=f"Error: estudiante {nombre_E} ya existe.")
 
     nombre.delete(0,tk.END)
     edad.delete(0,tk.END)
@@ -91,7 +90,7 @@ try:
     ventana.title("Sistema Registro de Estudiantes")
     ventana.geometry("450x450");
     # titulo
-    titulo = tk.Label(ventana, text="Sistema Registro de Estudiantes.", bg="#17C225", font=(500))
+    titulo = tk.Label(ventana, text="Registro de Estudiantes.", bg="#17C225", font=(500))
     titulo.pack()
 
     txt_nombre = tk.Label(ventana, text="Nombre:")
@@ -110,7 +109,7 @@ try:
     resultado.pack()
 
     boton_lista = tk.Button(ventana, text="Lista Estudiantes", command=listaEstudiante)
-    boton_lista.pack(pady=20)
+    boton_lista.pack(pady=10)
 
     resultado2 = tk.Label(ventana, text="")
     resultado2.pack()
@@ -118,3 +117,4 @@ try:
     ventana.mainloop()
 except ValueError:
     resultado.config(text="Error: Entrada Invalida")
+    
