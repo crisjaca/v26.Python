@@ -77,19 +77,28 @@ def registro():
         if edad_E < 0:
             resultado.config(text="Error: La edad no puede ser negativa")
             return
-        nota_E = int(nota_E) 
-        if nombre_E and edad_E and nota_E >0 and nota_E < 100:
-            nuevo_estudiante = Estudiante(nombre_E, edad_E, nota_E)
-            if lista.agregar_Estudiantes(nuevo_estudiante):
-                resultado.config(text=f"¡Se ha registrado un nuevo estudiante {nombre_E}!")
+        try:
+            nota_E = int(nota_E) 
+            if nombre_E and edad_E and nota_E >0 and nota_E < 100:
+                if lista.buscar_Estudiantes(nombre_E):
+                    resultado.config(text="")
+                    resultado2.config(text=f"Error: el estudiante ya se encuentra registrado")
+                else:
+                    nuevo_estudiante = Estudiante(nombre_E, edad_E, nota_E)
+                    if lista.agregar_Estudiantes(nuevo_estudiante):
+                        resultado.config(text=f"¡Se ha registrado un nuevo estudiante {nombre_E}!")
+                        resultado2.config(text=f"")
+                    else:
+                        resultado.config(text=f"Error: estudiante {nombre_E} ya existe.")
             else:
-                resultado.config(text=f"Error: estudiante {nombre_E} ya existe.")
-        else:
-            resultado.config(text="Por favor ingrese nombre y edad.")
+                resultado.config(text="Error: Fuera del rango")
+                resultado2.config(text="Error: Nota debe estar entre 0 y 100")
+        except ValueError:
+            resultado2.config(text="Error: Nota debe ser numerica.")
     except ValueError:
         resultado.config(text="")
-        resultado2.config(text="Error: Entrada inválida")
-        
+        resultado2.config(text="Error: Edad debe ser numerica.")
+    
     nombre.delete(0,tk.END)
     edad.delete(0,tk.END)
     nota.delete(0,tk.END)
@@ -100,17 +109,22 @@ def lst_estudiantes():
 def agregar_Nota():
     nombre2 = nombre.get()
     nota2 = nota.get()
-    if lista.buscar_Estudiantes(nombre2):
-        resultado.config(text="Busqueda exitosa!!")
-        if lista.buscar_Estudiantes(nombre2).agregar_nota(nota2):
-            resultado2.config(text="Se guardo la nueva nota con extito!!")
-            nombre.delete(0,tk.END)
-            nota.delete(0,tk.END)
+    try:
+        nota2 = int(nota2)
+        if lista.buscar_Estudiantes(nombre2) and nota2>0 and nota2 < 100:
+            if lista.buscar_Estudiantes(nombre2).agregar_nota(nota2):
+                resultado.config(text="Busqueda exitosa!!")
+                resultado2.config(text="Se guardo la nueva nota con extito!!")
+                nombre.delete(0,tk.END)
+                nota.delete(0,tk.END)
+                return
+        else:
+            resultado.config(text="")
+            resultado2.config(text="Error: Entrada Invalida")
             return
-    else:
+    except ValueError:
         resultado.config(text="")
-        resultado2.config(text="Error: Entrada Invalida")
-        return
+        resultado2.config(text="Error: Nota debe ser numerica.")
     if nota2 == "":
         resultado.config(text="Error: La nota no puede estar vacía")
         return
