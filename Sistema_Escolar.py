@@ -1,5 +1,7 @@
 """
 INGIENERIA DE SISTEMAS | APLICATIVO SISTEMA ESCOLAR    
+Heidy Cruz
+Cristian Jaca
 """
 import tkinter as tk
 
@@ -127,8 +129,8 @@ def agregar_Nota():
         resultado2.config(text="Error: Nota debe ser numerica.")
     if nota2 == "":
         resultado.config(text="Error: La nota no puede estar vacía")
-        return
-    
+    nombre.delete(0,tk.END)
+    nota.delete(0,tk.END)
 
 def buscar_E():
     nombre2 = nombre.get()
