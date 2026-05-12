@@ -1,5 +1,8 @@
 """
 INGIENERIA DE SISTEMAS | APLICATIVO SISTEMA ESCOLAR    
+Estudiantes:
+Heidy Julieth Cruz Acosta
+Cristian David Jacanamijoy
 """
 import tkinter as tk
 
