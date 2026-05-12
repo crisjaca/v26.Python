@@ -1,8 +1,13 @@
 """
 INGIENERIA DE SISTEMAS | APLICATIVO SISTEMA ESCOLAR    
+<<<<<<< HEAD
 Estudiantes:
 Heidy Julieth Cruz Acosta
 Cristian David Jacanamijoy
+=======
+Heidy Cruz
+Cristian Jaca
+>>>>>>> 8f5a2e423421f3492b9f71f86149aaa2d980c54f
 """
 import tkinter as tk
 
@@ -130,8 +135,8 @@ def agregar_Nota():
         resultado2.config(text="Error: Nota debe ser numerica.")
     if nota2 == "":
         resultado.config(text="Error: La nota no puede estar vacía")
-        return
-    
+    nombre.delete(0,tk.END)
+    nota.delete(0,tk.END)
 
 def buscar_E():
     nombre2 = nombre.get()
